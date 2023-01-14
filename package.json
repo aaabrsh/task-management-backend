@@ -1,0 +1,25 @@
+{
+  "name": "task-management-backend",
+  "version": "1.0.0",
+  "description": "Backend api for the task-management app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaabrsh/task-management-backend.git"
+  },
+  "author": "Abraham Alemayehu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaabrsh/task-management-backend/issues"
+  },
+  "homepage": "https://github.com/aaabrsh/task-management-backend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

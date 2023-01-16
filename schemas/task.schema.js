@@ -8,8 +8,16 @@ const taskSchema = new Schema({
   task_id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   description: String,
-  priority: { type: String, required: true },
-  status: { type: String, default: "Backlog" },
+  priority: {
+    type: String,
+    default: "medium",
+    enum: ["low", "medium", "high"],
+  },
+  status: {
+    type: String,
+    default: "Backlog",
+    enum: ["backlog", "todo", "in-progress", "completed"],
+  },
   deadline: { type: Date },
   board: { type: Schema.Types.ObjectId, required: true, ref: "Board" },
   created_by: { type: Schema.Types.ObjectId, required: true, ref: "User" },

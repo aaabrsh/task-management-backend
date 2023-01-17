@@ -28,9 +28,6 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-      validate: (value) => {
-        return validator.validatePassword(value);
-      },
     },
     profile_image: String,
   },

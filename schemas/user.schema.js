@@ -5,33 +5,36 @@ const validator = require("../utils/validator.util");
 const Schema = mongoose.Schema;
 
 //user schema
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: (value) => {
-      return validator.validateUsername(value);
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: (value) => {
+        return validator.validateUsername(value);
+      },
     },
-  },
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: (value) => {
-      return validator.validateEmail(value);
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: (value) => {
+        return validator.validateEmail(value);
+      },
     },
-  },
-  password: {
-    type: String,
-    required: true,
-    validate: (value) => {
-      return validator.validatePassword(value);
+    password: {
+      type: String,
+      required: true,
+      validate: (value) => {
+        return validator.validatePassword(value);
+      },
     },
+    profile_image: String,
   },
-  profile_image: String,
-});
+  { timestamps: true }
+);
 
 module.exports.userSchema = userSchema;

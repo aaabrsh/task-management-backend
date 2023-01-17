@@ -11,8 +11,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: (value) => {
-        return validator.validateUsername(value);
+      validate: {
+        validator: (value) => {
+          return validator.validateUsername(value);
+        },
+        message: "Invalid Username",
       },
     },
     first_name: { type: String, required: true },
@@ -21,8 +24,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: (value) => {
-        return validator.validateEmail(value);
+      validate: {
+        validator: (value) => {
+          return validator.validateEmail(value);
+        },
+        message: "Invalid Email"
       },
     },
     password: {

@@ -17,7 +17,7 @@ module.exports = mongoose
     const app = express();
 
     app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+    app.use(express.urlencoded({ extended: true }));
     app.use("/api", routes);
 
     // catch 404 and forward to error handler
@@ -34,7 +34,7 @@ module.exports = mongoose
       return;
     });
 
-    const port = 5000;
+    const port = process.env.PORT || 5000;
 
     //0.0.0.0 means listen on all interfaces(including over ip address) - it is the default
     app.listen(port, "0.0.0.0", () =>

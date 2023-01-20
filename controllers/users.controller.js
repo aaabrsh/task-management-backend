@@ -1,4 +1,5 @@
 const { User } = require("../models/user.model");
+const { getValidationMessages } = require("../utils/validator.util");
 
 module.exports.get = async (req, res, next) => {
   try {
@@ -27,15 +28,7 @@ module.exports.create = async (req, res, next) => {
     return res.json({ success: true, data: response });
   } catch (err) {
     if (err.name === "ValidationError") {
-      err.message = {};
-      const keys = Object.keys(err.errors);
-
-      keys.forEach((key) => {
-        err.message[key] = err.errors[key].message;
-      });
-
-      err.statusCode = 400;
-      next(err);
+      next(getValidationMessages(err));
     } else {
       next(err);
     }

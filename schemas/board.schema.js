@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator");
+const { User } = require("../models/user.model");
 
 //define schema
 const Schema = mongoose.Schema;
@@ -22,6 +23,10 @@ const boardSchema = new Schema(
   },
   { timestamps: true }
 );
+
+boardSchema.methods.userExists = async function () {
+  return await User.exists({ _id: this.created_by }) ? true : false;
+};
 
 boardSchema.plugin(uniqueValidator, { message: "{PATH} is already taken" });
 

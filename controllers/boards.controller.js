@@ -1,5 +1,6 @@
 const { Board } = require("../models/board.model");
-const { ObjectId} = require("mongodb")
+const { ObjectId } = require("mongodb");
+const { getValidationMessages } = require("../utils/validator.util");
 
 module.exports.get = async (req, res, next) => {
   try {
@@ -12,37 +13,46 @@ module.exports.get = async (req, res, next) => {
 };
 
 module.exports.getOne = async (req, res, next) => {
-  try{
+  try {
     const id = ObjectId(req.params.id);
-    const board = await Board.findById(id).populate('created_by');
-    res.json({success: true, data: board})
-  }catch(err){
+    const board = await Board.findById(id);
+    res.json({ success: true, data: board });
+  } catch (err) {
     console.log(err.message);
     next(err);
   }
-}
+};
 
 module.exports.create = async (req, res, next) => {
-  try{
-    const board = req.body.payload;
-    const response = await Board.create(board);
-    res.json({success: true, data: response})
-  }catch(err){
-    // console.log(err.message);
-    // res.json({...err})
-    err.statusCode = 400;
-    next(err);
+  try {
+    let newBoard = new Board({
+      ...req.body.payload,
+      created_by: ObjectId(req.body.payload.created_by),
+    });
+    if (!(await newBoard.userExists())) {
+      return res
+        .status(400)
+        .json({ success: false, message: { created_by: "user not found" } });
+    }
+    const response = await newBoard.save();
+    res.json({ success: true, data: response });
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      next(getValidationMessages(err));
+    } else {
+      next(err);
+    }
   }
-}
+};
 
 module.exports.update = async (req, res, next) => {
-  try{
-    res.json({success: true, data: "endpoint works"})
-  }catch(err){
+  try {
+    res.json({ success: true, data: "endpoint works" });
+  } catch (err) {
     console.log(err.message);
     next(err);
   }
-}
+};
 //for unique validator to run
 // User.findOneAndUpdate(
 //   { email: 'old-email@example.com' },
@@ -54,17 +64,10 @@ module.exports.update = async (req, res, next) => {
 // )
 
 module.exports.delete = async (req, res, next) => {
-  try{
-    res.json({success: true, data: "endpoint works"})
-  }catch(err){
+  try {
+    res.json({ success: true, data: "endpoint works" });
+  } catch (err) {
     console.log(err.message);
     next(err);
   }
-}
-//format to follow
-// try {
-//   res.json(await serviceName.functionName(param));
-// } catch (err) {
-//   console.error(err.message);
-//   next(err);
-// }
+};

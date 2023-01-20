@@ -18,7 +18,7 @@ const userSchema = new Schema(
         validator: (value) => {
           return validator.validateUsername(value);
         },
-        message: "Invalid Username",
+        message: "invalid Username",
       },
     },
     first_name: { type: String, required: [true, "first name is required"] },
@@ -32,7 +32,7 @@ const userSchema = new Schema(
         validator: (value) => {
           return validator.validateEmail(value);
         },
-        message: "Invalid Email",
+        message: "invalid Email",
       },
     },
     password: {

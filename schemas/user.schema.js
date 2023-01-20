@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator");
+const bcrypt = require("bcrypt");
 const validator = require("../utils/validator.util");
 
 //define schema
@@ -12,7 +13,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, "username is required"],
       unique: true,
-      uniqueCaseInsensitive: true,//for uniqueValidator
+      uniqueCaseInsensitive: true, //for uniqueValidator
       validate: {
         validator: (value) => {
           return validator.validateUsername(value);
@@ -42,6 +43,21 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+//create a hash from plain text
+userSchema.methods.createHash = async function (plainTextPassword) {
+  /**
+   * SALTING: adding random data to the input of a hash function to 
+   * guarantee a unique output even when the inputs are the same. */
+
+  const saltRounds = 10;
+  return await bcrypt.hash(plainTextPassword, saltRounds);
+};
+
+//Validating a candidate password
+userSchema.methods.validatePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 userSchema.plugin(uniqueValidator, { message: "{PATH} is already taken" });
 

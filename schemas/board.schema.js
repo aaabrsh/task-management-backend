@@ -23,7 +23,7 @@ const boardSchema = new Schema(
         validator: async (value) => {
           //can't move this to validator.util.js because that creates circular dependency
           //but can move it to a new file
-          return (await User.exists({ _id: this.created_by })) ? true : false;
+          return (await User.exists({ _id: value })) ? true : false;
         },
         message: "user doesn't exist",
       },

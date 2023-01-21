@@ -33,6 +33,7 @@ module.exports.create = async (req, res, next) => {
     const response = await newTask.save();
     res.json({ success: true, data: response });
   } catch (err) {
+    console.log(err.message)
     if (err.name === "ValidationError") {
       next(getValidationMessages(err));
     } else {

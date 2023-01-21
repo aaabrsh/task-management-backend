@@ -27,6 +27,7 @@ module.exports.create = async (req, res, next) => {
 
     return res.json({ success: true, data: response });
   } catch (err) {
+    console.log(err.message)
     if (err.name === "ValidationError") {
       next(getValidationMessages(err));
     } else {

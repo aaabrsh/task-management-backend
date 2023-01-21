@@ -43,25 +43,29 @@ module.exports.create = async (req, res, next) => {
 
 module.exports.update = async (req, res, next) => {
   try {
-    res.json({ success: true, data: "endpoint works" });
+    const id = ObjectId(req.params.id);
+    const { payload } = req.body;
+    let response = await Board.findByIdAndUpdate(
+      id,
+      { ...payload },
+      { new: true, runValidators: true, context: "query" }
+    );
+    res.json({ success: true, data: response });
   } catch (err) {
     console.log(err.message);
-    next(err);
+    if (err.name === "ValidationError") {
+      next(getValidationMessages(err));
+    } else {
+      next(err);
+    }
   }
 };
-//for unique validator to run
-// User.findOneAndUpdate(
-//   { email: 'old-email@example.com' },
-//   { email: 'new-email@example.com' },
-//   { runValidators: true, context: 'query' },
-//   function(err) {
-//       // ...
-//   }
-// )
 
 module.exports.delete = async (req, res, next) => {
   try {
-    res.json({ success: true, data: "endpoint works" });
+    const id = ObjectId(req.params.id);
+    let response = await Board.findByIdAndDelete(id);
+    res.json({ success: true, data: response });
   } catch (err) {
     console.log(err.message);
     next(err);

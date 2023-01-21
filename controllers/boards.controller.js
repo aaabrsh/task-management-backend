@@ -29,11 +29,7 @@ module.exports.create = async (req, res, next) => {
       ...req.body.payload,
       created_by: ObjectId(req.body.payload.created_by),
     });
-    if (!(await newBoard.userExists())) {
-      return res
-        .status(400)
-        .json({ success: false, message: { created_by: "user not found" } });
-    }
+
     const response = await newBoard.save();
     res.json({ success: true, data: response });
   } catch (err) {

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcrypt");
-const validator = require("../utils/validator.util");
+const { validateUsername, validateEmail } = require("../utils/validator.util");
 
 //define schema
 const Schema = mongoose.Schema;
@@ -16,7 +16,7 @@ const userSchema = new Schema(
       uniqueCaseInsensitive: true, //for uniqueValidator
       validate: {
         validator: (value) => {
-          return validator.validateUsername(value);
+          return validateUsername(value);
         },
         message: "invalid Username",
       },
@@ -30,7 +30,7 @@ const userSchema = new Schema(
       uniqueCaseInsensitive: true,
       validate: {
         validator: (value) => {
-          return validator.validateEmail(value);
+          return validateEmail(value);
         },
         message: "invalid Email",
       },
@@ -47,7 +47,7 @@ const userSchema = new Schema(
 //create a hash from plain text
 userSchema.methods.createHash = async function (plainTextPassword) {
   /**
-   * SALTING: adding random data to the input of a hash function to 
+   * SALTING: adding random data to the input of a hash function to
    * guarantee a unique output even when the inputs are the same. */
 
   const saltRounds = 10;

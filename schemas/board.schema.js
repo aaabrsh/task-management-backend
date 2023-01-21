@@ -19,14 +19,18 @@ const boardSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: [true, "user id is required"],
       ref: "User",
+      validate: {
+        validator: async (value) => {
+          //can't move this to validator.util.js because that creates circular dependency
+          //but can move it to a new file
+          return (await User.exists({ _id: this.created_by })) ? true : false;
+        },
+        message: "user doesn't exist",
+      },
     },
   },
   { timestamps: true }
 );
-
-boardSchema.methods.userExists = async function () {
-  return await User.exists({ _id: this.created_by }) ? true : false;
-};
 
 boardSchema.plugin(uniqueValidator, { message: "{PATH} is already taken" });
 

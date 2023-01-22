@@ -10,8 +10,8 @@ const { Task } = require("./models/task.model");
 const { local_uri } = require("./configs/db.config");
 
 //db connection
-console.log("hello")
-console.log(process.env.ATLAS_URI)
+console.log("hello");
+console.log(process.env.ATLAS_URI);
 module.exports = mongoose
   .connect(process.env.ATLAS_URI || local_uri)
   .then((result) => {
@@ -40,10 +40,7 @@ module.exports = mongoose
 
     const port = process.env.PORT || 5000;
 
-    //0.0.0.0 means listen on all interfaces(including over ip address) - it is the default
-    app.listen(port, "0.0.0.0", () =>
-      console.log(`Server Listening on port ${port}`)
-    );
+    app.listen(port, () => console.log(`Server Listening on port ${port}`));
   })
   .catch((err) => {
     console.log("MongoDB Connection Error:", err);

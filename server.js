@@ -7,11 +7,11 @@ const { User } = require("./models/user.model");
 const { Board } = require("./models/board.model");
 const { Task } = require("./models/task.model");
 
-const { uri } = require("./configs/db.config");
+const { local_uri } = require("./configs/db.config");
 
 //db connection
 module.exports = mongoose
-  .connect(uri)
+  .connect(process.env.ATLAS_URI || local_uri)
   .then((result) => {
     console.log("Successfully Connected to Database!");
 
@@ -29,7 +29,7 @@ module.exports = mongoose
 
     // error handler middleware
     app.use((err, req, res, next) => {
-      const statusCode = err.statusCode || 500;
+      const statusCode = err.statusCode || 5000;
       console.error(err.message, err.stack);
       res.status(statusCode).json({ success: false, message: err.message });
 

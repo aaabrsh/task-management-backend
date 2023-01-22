@@ -44,15 +44,26 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+userSchema.post("validate", function (doc, next) {
+  if (doc.password.length < 8) {
+    let err = new Error("password must contain atleast eight characters");
+    err.statusCode = 400;
+    throw err;
+  }
+  next();
+});
+
 //create a hash from plain text
-userSchema.methods.createHash = async function (plainTextPassword) {
+userSchema.pre("save", async function (next) {
+  //schema middleware
   /**
    * SALTING: adding random data to the input of a hash function to
    * guarantee a unique output even when the inputs are the same. */
 
   const saltRounds = 10;
-  return await bcrypt.hash(plainTextPassword, saltRounds);
-};
+  this.password = await bcrypt.hash(this.password, saltRounds);
+  next();
+});
 
 //Validating a candidate password
 userSchema.methods.validatePassword = async function (candidatePassword) {

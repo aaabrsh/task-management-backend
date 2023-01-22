@@ -15,15 +15,6 @@ module.exports.get = async (req, res, next) => {
 module.exports.create = async (req, res, next) => {
   try {
     let newUser = new User({ ...req.body.payload });
-
-    if (newUser.password.length < 8) {
-      return next({
-        statusCode: 400,
-        message: "password must contain atleast eight characters",
-      });
-    }
-
-    newUser.password = await newUser.createHash(newUser.password);
     const response = await newUser.save();
 
     return res.json({ success: true, data: response });
@@ -36,7 +27,6 @@ module.exports.create = async (req, res, next) => {
     }
   }
 };
-
 
 module.exports.update = async (req, res, next) => {
   try {

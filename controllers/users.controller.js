@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { User } = require("../models/user.model");
 const { getValidationMessages } = require("../utils/validator.util");
 
@@ -27,12 +28,44 @@ module.exports.create = async (req, res, next) => {
 
     return res.json({ success: true, data: response });
   } catch (err) {
-    console.log(err.message)
+    console.log(err.message);
     if (err.name === "ValidationError") {
       next(getValidationMessages(err));
     } else {
       next(err);
     }
+  }
+};
+
+
+module.exports.update = async (req, res, next) => {
+  try {
+    const id = ObjectId(req.params.id);
+    const { payload } = req.body;
+    let response = await User.findByIdAndUpdate(
+      id,
+      { ...payload },
+      { new: true, runValidators: true, context: "query" }
+    );
+    res.json({ success: true, data: response });
+  } catch (err) {
+    console.log(err.message);
+    if (err.name === "ValidationError") {
+      next(getValidationMessages(err));
+    } else {
+      next(err);
+    }
+  }
+};
+
+module.exports.delete = async (req, res, next) => {
+  try {
+    const id = ObjectId(req.params.id);
+    let response = await User.findByIdAndDelete(id);
+    res.json({ success: true, data: response });
+  } catch (err) {
+    console.log(err.message);
+    next(err);
   }
 };
 

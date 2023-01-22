@@ -10,6 +10,8 @@ const { Task } = require("./models/task.model");
 const { local_uri } = require("./configs/db.config");
 
 //db connection
+console.log("hello")
+console.log(process.env.ATLAS_URI)
 module.exports = mongoose
   .connect(process.env.ATLAS_URI || local_uri)
   .then((result) => {

@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const createError = require("http-errors");
 const routes = require("./routes/routes");
+const cors = require("cors");
 const { User } = require("./models/user.model");
 const { Board } = require("./models/board.model");
 const { Task } = require("./models/task.model");
@@ -18,6 +19,7 @@ module.exports = mongoose
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(cors());
     app.use("/api", routes);
 
     // catch 404 and forward to error handler

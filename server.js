@@ -9,13 +9,13 @@ const { Task } = require("./models/task.model");
 
 const { local_uri } = require("./configs/db.config");
 
+const app = express();
+
 //db connection
 module.exports = mongoose
   .connect(process.env.ATLAS_URI || local_uri)
   .then((result) => {
     console.log("Successfully Connected to Database!");
-
-    const app = express();
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

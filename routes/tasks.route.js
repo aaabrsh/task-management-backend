@@ -4,7 +4,7 @@ const tasksController = require("../controllers/tasks.controller");
 
 //read
 router.get("/", tasksController.get);
-router.get("/board_id", tasksController.getAllInBoard);
+router.get("/:board_id", tasksController.getAllInBoard);
 // router.get("/:id", tasksController.getOne);
 
 //create

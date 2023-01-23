@@ -14,16 +14,29 @@ module.exports.get = async (req, res, next) => {
   }
 };
 
-module.exports.getOne = async (req, res, next) => {
+module.exports.getAllInBoard = async (req, res, next) => {
   try {
-    const id = ObjectId(req.params.id);
-    const task = await Task.findById(id);
-    res.json({ success: true, data: task });
+    const tasks = await Task.find({
+      board: ObjectId(req.params.board_id),
+      created_by: ObjectId("63cda92a69dc8ef7401c0551"),
+    });
+    res.json({ success: true, data: tasks });
   } catch (err) {
     console.log(err.message);
     next(err);
   }
 };
+
+// module.exports.getOne = async (req, res, next) => {
+//   try {
+//     const id = ObjectId(req.params.id);
+//     const task = await Task.findById(id);
+//     res.json({ success: true, data: task });
+//   } catch (err) {
+//     console.log(err.message);
+//     next(err);
+//   }
+// };
 
 module.exports.create = async (req, res, next) => {
   try {

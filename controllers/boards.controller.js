@@ -4,7 +4,8 @@ const { getValidationMessages } = require("../utils/validator.util");
 
 module.exports.get = async (req, res, next) => {
   try {
-    const boards = await Board.find();
+    const created_by = ObjectId("63cda92a69dc8ef7401c0551");
+    const boards = await Board.find({created_by: created_by});
     res.json({ success: true, data: boards });
   } catch (err) {
     console.log(err.message);

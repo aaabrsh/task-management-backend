@@ -37,11 +37,11 @@ module.exports = mongoose
     });
 
     const port = process.env.PORT || 5000;
-
-    //0.0.0.0 means listen on all interfaces(including over ip address) - it is the default
-    app.listen(port, "0.0.0.0", () =>
+    app.listen(port, () =>
       console.log(`Server Listening on port ${port}`)
     );
+
+    return app
   })
   .catch((err) => {
     console.log("MongoDB Connection Error:", err);

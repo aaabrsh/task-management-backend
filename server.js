@@ -16,7 +16,9 @@ module.exports = mongoose
   .connect(process.env.ATLAS_URI || local_uri)
   .then((result) => {
     console.log("Successfully Connected to Database!");
-
+    
+    app.listen(port, () => console.log(`Server Listening on port ${port}`));
+    
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cors());
@@ -40,7 +42,6 @@ module.exports = mongoose
 
     const port = process.env.PORT || 5000;
 
-    app.listen(port, () => console.log(`Server Listening on port ${port}`));
   })
   .catch((err) => {
     console.log("MongoDB Connection Error:", err);

@@ -42,6 +42,8 @@ module.exports = mongoose
     app.listen(port, () =>
       console.log(`Server Listening on port ${port}`)
     );
+
+    return app
   })
   .catch((err) => {
     console.log("MongoDB Connection Error:", err);

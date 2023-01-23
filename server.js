@@ -17,6 +17,7 @@ module.exports = mongoose
   .then((result) => {
     console.log("Successfully Connected to Database!");
     
+    const port = process.env.PORT || 5000;
     app.listen(port, () => console.log(`Server Listening on port ${port}`));
     
     app.use(express.json());
@@ -40,7 +41,6 @@ module.exports = mongoose
       return;
     });
 
-    const port = process.env.PORT || 5000;
 
   })
   .catch((err) => {

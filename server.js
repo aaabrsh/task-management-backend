@@ -9,18 +9,13 @@ const { Task } = require("./models/task.model");
 
 const { local_uri } = require("./configs/db.config");
 
-const app = express();
-
 //db connection
 module.exports = mongoose
   .connect(process.env.ATLAS_URI || local_uri)
   .then((result) => {
     console.log("Successfully Connected to Database!");
 
-    const port = process.env.PORT || 5000;
-    app.listen(port, "0.0.0.0", () =>
-      console.log(`Server Listening on port ${port}`)
-    );
+    const app = express();
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
@@ -42,6 +37,11 @@ module.exports = mongoose
 
       return;
     });
+
+    const port = process.env.PORT || 5000;
+    app.listen(port, () =>
+      console.log(`Server Listening on port ${port}`)
+    );
   })
   .catch((err) => {
     console.log("MongoDB Connection Error:", err);

@@ -20,9 +20,7 @@ module.exports = mongoose
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cors());
-    app.use("/api", (req, res) => {
-      res.send("works");
-    });
+    app.use("/api", routes);
 
     // catch 404 and forward to error handler
     app.use(function (req, res, next) {

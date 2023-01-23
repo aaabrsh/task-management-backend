@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const createError = require("http-errors");
+require("dotenv").config({ path: "./config.env" });
 const routes = require("./routes/routes");
 const cors = require("cors");
 const { User } = require("./models/user.model");
@@ -29,7 +30,7 @@ module.exports = mongoose
 
     // error handler middleware
     app.use((err, req, res, next) => {
-      const statusCode = err.statusCode || 5000;
+      const statusCode = err.statusCode || 500;
       console.error(err.message, err.stack);
       res.status(statusCode).json({ success: false, message: err.message });
 
@@ -37,11 +38,9 @@ module.exports = mongoose
     });
 
     const port = process.env.PORT || 5000;
-    app.listen(port, () =>
-      console.log(`Server Listening on port ${port}`)
-    );
+    app.listen(port, () => console.log(`Server Listening on port ${port}`));
 
-    return app
+    return app;
   })
   .catch((err) => {
     console.log("MongoDB Connection Error:", err);

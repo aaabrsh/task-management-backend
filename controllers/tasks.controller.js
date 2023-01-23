@@ -4,7 +4,9 @@ const { getValidationMessages } = require("../utils/validator.util");
 
 module.exports.get = async (req, res, next) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({
+      created_by: ObjectId("63cda92a69dc8ef7401c0551"),
+    });
     res.json({ success: true, data: tasks });
   } catch (err) {
     console.log(err.message);
@@ -28,7 +30,8 @@ module.exports.create = async (req, res, next) => {
     let newTask = new Task({
       ...req.body.payload,
       board: ObjectId(req.body.payload.board),
-      created_by: ObjectId(req.body.payload.created_by),
+      // created_by: ObjectId(req.body.payload.created_by),
+      created_by: ObjectId("63cda92a69dc8ef7401c0551"),
     });
     const response = await newTask.save();
     res.json({ success: true, data: response });
